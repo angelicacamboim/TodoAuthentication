@@ -1,12 +1,8 @@
-import express from 'express' //biblioteca para criar endpoints, provê rotas e porta
+import server from './server' 
 
-const PORT = 8087
-const api = express()
+const PORT = 3003
 
-api.get('/', (req, res) => {
-    res.send("ok")
+server.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost: ${PORT}`)
 })
 
-api.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost: ${PORT}`)
-})
