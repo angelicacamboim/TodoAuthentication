@@ -1,8 +1,8 @@
 import server from './server' 
 
-const PORT = 3003
+import { config } from './shared/environments/environment'
 
-server.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost: ${PORT}`)
+server.listen(config.port, () => {
+  console.log(`Example app listening at http://localhost: ${config.port}`)
 })
 
