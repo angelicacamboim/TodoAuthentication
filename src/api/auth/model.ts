@@ -1,6 +1,25 @@
-function authLogin(email: string, password: string): boolean {
+import jwt from 'jsonwebtoken'
+import {config} from '../../shared/environments/environment'
+
+//Mock
+const user = {
+    name: 'Angelica bayer',
+    email: 'angel@gmail.com',
+    id: 1
+}
+const role = {
+    name: 'admin'
+}
+//end mock
+
+function authLogin(email: string, password: string): boolean | string {
     if(email && email != "" && password && password != ""){
-        return true
+        const payload = {user, role}
+        const jwtSecret = config.jwtSecret
+
+        const token = jwt.sign(payload, jwtSecret, {expiresIn: '1h'})
+
+        return token
     }
     return false
 }

@@ -1,6 +1,6 @@
 export interface IConfig {
     env: string
     port: number
-    masterKey?: string
-    jwtSecret?: string
+    masterKey: string
+    jwtSecret: string
 }

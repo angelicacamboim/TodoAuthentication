@@ -4,10 +4,10 @@ import * as model from './model'
 
 const login = (req: Request, res:Response, next: NextFunction) => {
     const { email, password } = req.body
-    const isAuth = model.authLogin(email, password)
+    const token = model.authLogin(email, password)
 
-    if(isAuth) {
-        res.status(200).json( {login: "login it's works"})
+    if(token) {
+        res.status(200).json( {token})
     } else {
         res.status(401).json( {login: "user is not provider"})
     }
