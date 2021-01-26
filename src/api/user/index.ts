@@ -4,7 +4,7 @@ import * as controller from './controller'
 
 const routes = Router()
 
-routes.get("/", controller.list)
+routes.post("/", controller.index)
 
 
 export default routes
