@@ -1,15 +1,16 @@
 import { Router } from 'express'
 
 import * as controller from './controller'
-import { jwtMiddleware } from '../../shared/middewares/jwt'
+import { verifyMiddleware } from '../../shared/middewares/jwt'
+import { loginSchema, createSchema } from './validation'
 
 
 const routes = Router()
 
-routes.post("/login", controller.login)
+routes.post("/login",loginSchema, controller.login)
 
-routes.post("/logout", jwtMiddleware, controller.logout)
+routes.post("/logout", verifyMiddleware, controller.logout)
 
-routes.post("/create", controller.create)
+routes.post("/create",createSchema, controller.create)
 
 export default routes

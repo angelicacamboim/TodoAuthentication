@@ -1,5 +1,5 @@
 import { IUser } from '../../shared/interfaces/user'
-import User from '../../shared/models/user'
+import User from '../../shared/models_database/user'
 
 class UserModel {
     private user: any
@@ -13,9 +13,9 @@ class UserModel {
         return users
     }
 
-    async find(id: any){
+    async find(body: any){
         try {
-            const user: IUser =  await this.user.findUser(id)
+            const user: IUser =  await this.user.findUser(body)
             return user
 
             }catch(error){

@@ -1,39 +1,39 @@
 import { Request, Response, NextFunction } from 'express'
 
-import * as model from './model'
+import Model from './model'
 
-const login = (req: Request, res:Response, next: NextFunction) => {
-    const { email, password } = req.body
-    const token = model.authLogin(email, password)
+const login = async (req: Request, res:Response, next: NextFunction) => {
+  try {
+    const user = await Model.findUser(req.body)
+    const token = Model.generateToken(user)
+    res.status(200).json( {token})
+ 
 
-    if(token) {
-        res.status(200).json( {token})
-    } else {
-        res.status(401).json( {login: "user is not provider"})
-    }
+  }catch(error){
+    res.status(401).json( {login: "user is not provider"})
+
+  }
 }
+   
 
 const logout = (req: Request, res:Response, next: NextFunction) => {
-    const { authorization } = req.headers
-    const token = model.getToken(authorization)
+    res.status(200).json( {logout: "logout it's works"})
+    //deletar token
 
-    const isLogout = model.authLogout(token)
-    if(isLogout){
-        res.status(200).json( {logout: "logout it's works"})
-    } else{
-        res.status(401).json( {logout: "token it's not provider!"})
-    }
 }
 
-const create = (req: Request, res:Response, next: NextFunction) => {
-    const { email, password } = req.body
-    const token = model.createUser(email, password)
-
-    if(token) {
-        res.status(200).json( { token })
-    } else {
-        res.status(401).json( {create: "user is not provider"})
-    }
+const create = async (req: Request, res:Response, next: NextFunction) => {
+    try {
+        const user = await Model.create(req.body)
+        const token = Model.generateToken(user)
+        res.status(200).json( {token})
+     
+    
+      }catch(error){
+        res.status(401).json( {create: "server error"})
+    
+      }
 }
 
-export { login, logout, create}
+
+export  { login, logout, create}

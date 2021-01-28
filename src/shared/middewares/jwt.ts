@@ -5,13 +5,13 @@ import {IPayload} from '../interfaces/payload'
 
 
 //verificação de token
-const jwtMiddleware = (req: Request, res:Response, next: NextFunction) => {
-    const { authorization } = req.headers;
-    if(!authorization) {
+const verifyMiddleware = (req: Request, res:Response, next: NextFunction) => {
+    const { 'x-access-token': accessToken } = req.headers;
+    if(!accessToken) {
         return res.status(401).json( { message: 'No token provided'})
     }
 
-    const token = authorization.split('Bearer ')[1]
+    const token = typeof accessToken === 'string' ? accessToken : accessToken[0]
 
     jwt.verify(token, config.jwtSecret, (err, dec) => {
         if(err) {
@@ -20,16 +20,12 @@ const jwtMiddleware = (req: Request, res:Response, next: NextFunction) => {
 
         let decoded: IPayload | undefined = {}
 
-        if(decoded){
-            //interface decoded
-            decoded = dec
-            const id = decoded?.user?.id || ''
-            //setar o header
-            req.headers['userid'] = id
+        if(decoded.user?.id){
+            req.headers['userid'] = String(decoded.user.id)
         }
         next()
     })
 
 }
 
-export { jwtMiddleware }
+export { verifyMiddleware }

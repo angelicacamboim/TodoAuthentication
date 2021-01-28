@@ -29,7 +29,7 @@ class User {
     async findUser(user: IUser): Promise<IUser | any>{
         try{
             const users: IUser[] = await this.conn.table(this.table)
-            .select('name', 'avatar', 'username', 'email', 'id').where({id: user.id})
+            .select('name', 'avatar', 'username', 'email', 'id').where({...user})
 
             return users[0]
 
